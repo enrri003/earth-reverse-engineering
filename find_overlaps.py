@@ -5,7 +5,6 @@ from proto.BulkOrPlanetoid_pb2 import BulkOrPlanetoid
 
 from octant_to_latlong import octant_to_latlong
 from octant_to_latlong import LatLonBox
-from latlonbox import is_latlonbox_overlapping
 
 PLANET = "earth"
 URL_PREFIX = f"https://kh.google.com/rt/{PLANET}/"
@@ -74,7 +73,7 @@ class OverlappingOctants(object):
 
     def is_overlapping(self, node_data):
         node_box = octant_to_latlong(node_data.path)
-        return is_latlonbox_overlapping(node_box, self.box)
+        return LatLonBox.is_overlapping(node_box, self.box)
 
     def update_bulk_data(self, bulk):
         for node in NodeData.from_bulk_data(bulk):
