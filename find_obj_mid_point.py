@@ -14,14 +14,18 @@ def load_obj_vertices(filename):
     return vertices
 
 
-def get_mid_point(vertices):
+def get_mid_point(array):
+    return (array.min() + array.max()) / 2
+
+
+def find_mid_point_by_lat_lon_rad(vertices):
     radiuses = np.linalg.norm(vertices, axis=1)
     latitudes = np.arcsin(vertices[:, 2] / radiuses)
     longitudes = np.arctan2(vertices[:, 1], vertices[:, 0])
 
-    rad = np.median(radiuses)
-    lat = np.median(latitudes)
-    lon = np.median(longitudes)
+    rad = get_mid_point(radiuses)
+    lat = get_mid_point(latitudes)
+    lon = get_mid_point(longitudes)
 
     x = rad * np.cos(lat) * np.cos(lon)
     y = rad * np.cos(lat) * np.sin(lon)
@@ -31,5 +35,5 @@ def get_mid_point(vertices):
 
 input_file = sys.argv[1]
 vertices = load_obj_vertices(input_file)
-mid_point = get_mid_point(vertices)
+mid_point = find_mid_point_by_lat_lon_rad(vertices)
 print(mid_point)
